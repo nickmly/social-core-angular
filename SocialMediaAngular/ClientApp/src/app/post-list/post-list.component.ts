@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Post } from '../post/post';
 import { PostService } from '../post.service';
 
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',

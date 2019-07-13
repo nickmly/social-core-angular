@@ -16,4 +16,10 @@ export class PostComponent implements OnInit {
   ngOnInit() {
   }
 
+  get trimmedContent() {
+    if(this.post.content === "")
+      return "";
+    return this.post.content.substring(0, 100) + "...";
+  }
+
 }

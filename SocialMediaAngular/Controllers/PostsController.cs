@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using SocialMediaAngular;
+using SocialMediaAngular.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +14,59 @@ namespace SocialMediaAngular.Controllers
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
+        private List<Post> redditPosts = new List<Post>();
+
+        public async Task PopulatePosts()
+        {
+            JObject json = await RedditConnector.GetJSONAsync("/r/all/.json");
+            if (json["error"] == null)
+            {
+                int index = 1;
+                foreach (var post in json["data"]["children"])
+                {
+                    var currentPost = post["data"];
+                    Post newPost = new Post
+                    {
+                        ID = index,
+                        Title = currentPost["title"].ToString(),
+                        Content = currentPost["selftext"].ToString(),
+                        Permalink = currentPost["permalink"].ToString(),
+                        Link = currentPost["url"].ToString(),
+                        AuthorName = currentPost["author"].ToString(),
+                        Likes = Convert.ToInt32(currentPost["ups"])
+                    };
+
+                    newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
+                    if (newPost.LinkType == "Youtube")
+                        newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
+                    if (newPost.LinkType == "Gfycat")
+                    {
+                        newPost.Link = LinkChecker.ConvertGfycatLink(newPost.Link);
+                        newPost.LinkType = "Video";
+                    }
+
+                    if (Convert.ToBoolean(currentPost["is_video"]) == true)
+                    {
+                        newPost.Link = currentPost["secure_media"]["reddit_video"]["fallback_url"].ToString();
+                        newPost.LinkType = "Video";
+                    }
+
+                    redditPosts.Add(newPost);
+                    index++;
+                }
+            }
+            else
+            {
+                // TODO: Log error
+            }
+        }        
+
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<Post>> Get()
         {
-            return new string[] { "value1", "value2" };
+            await PopulatePosts();
+            return redditPosts;
         }
 
         // GET api/<controller>/5
