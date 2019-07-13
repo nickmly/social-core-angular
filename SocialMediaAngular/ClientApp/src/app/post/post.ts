@@ -1,5 +1,10 @@
 export class Post {
-    title: string = "<title>";
-    content: string = "<body>";
-    author: string = "<author>";
+  id: number = 0;
+  title: string = "<title>";
+  content: string = "<body>";
+  authorName: string = "<author>";
+  link: string;
+  permalink: string;
+  likes: number = 0;
+  linkType: string;
 }

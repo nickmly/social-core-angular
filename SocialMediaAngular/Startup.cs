@@ -65,6 +65,9 @@ namespace SocialMediaAngular
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            // Configure Reddit Connector
+            RedditConnector.RunClient();
         }
     }
 }

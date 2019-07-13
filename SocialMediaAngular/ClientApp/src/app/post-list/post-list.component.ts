@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post/post';
 import { PostService } from '../post.service';
-import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-post-list',
@@ -12,15 +12,15 @@ import { HttpClient } from '@angular/common/http';
 export class PostListComponent implements OnInit {  
   posts: Post[];
 
-  constructor(private postService: PostService, private http: HttpClient) { }
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
     this.getPosts();
   }
 
   getPosts() : void {
-    this.http.get<Post[]>("/api/posts").subscribe(function(data) {
-      this.posts = data[0];
+    this.postService.getPosts().subscribe(function(posts){
+      this.posts = posts;
     }.bind(this));
   }
 
