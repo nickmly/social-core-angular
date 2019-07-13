@@ -8,14 +8,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SocialMediaAngular.Controllers
 {
+    public class Post
+    {
+        public string title { get; set; }
+        public string content { get; set; }
+        public string author { get; set; }
+    }
+
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Post[]> Get()
         {
-            return new string[] { "value1", "value2" };
+            Post post1 = new Post()
+            {
+                title = "Title",
+                content = "Content",
+                author = "Author"
+            };
+
+            Post post2 = new Post()
+            {
+                title = "Title1",
+                content = "Content1",
+                author = "Author1"
+            };
+
+            Post[] posts = new Post[] { post1, post2 };
+            yield return posts;
         }
 
         // GET api/<controller>/5
