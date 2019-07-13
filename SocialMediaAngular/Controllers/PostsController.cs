@@ -5,23 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SocialMediaAngular;
+using SocialMediaAngular.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SocialMediaAngular.Controllers
 {
-    public class Post
-    {
-        public int ID { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string AuthorName { get; set; }
-        public string Link { get; set; }
-        public string Permalink { get; set; }
-        public int Likes { get; set; }
-        public string LinkType { get; set; }
-    }
-
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
