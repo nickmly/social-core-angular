@@ -1,4 +1,16 @@
 <div class="post">
-  <h2>{{ post.title }}</h2>
-  <p>{{ trimmedContent }}</p>
+  <div class="post-header">
+    <div class="post-subheader">
+        <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">
+        <a href="{{ linkToReddit }}"><h3 class="post-title">{{ post.title }}</h3></a>
+    </div>
+    <p class="post-author">Posted by <strong>{{ post.authorName }}</strong></p>
+  </div> 
+  <div class="post-content">
+      <ng-container [ngSwitch]="post.linkType">
+        <img *ngSwitchCase="'Image'" class="post-image" src="{{ post.link }}"/>
+        <video *ngSwitchCase="'Video'" class="post-video" src="{{ post.link }}" controls></video>
+        <p *ngSwitchDefault>{{ trimmedContent }}</p>
+      </ng-container>
+  </div>
 </div>

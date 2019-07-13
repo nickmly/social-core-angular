@@ -17,9 +17,16 @@ export class PostComponent implements OnInit {
   }
 
   get trimmedContent() {
-    if(this.post.content === "")
-      return "";
-    return this.post.content.substring(0, 100) + "...";
+    if(this.post.content === '')
+      return '';
+    return this.post.content.substring(0, 100) + '...';
+  }  
+
+  get linkToReddit() {
+    return 'https://reddit.com' + this.post.permalink;
   }
 
+  get canShowThumbnail() {
+    return this.post.linkType == 'default' && this.post.thumbnail != 'self' && this.post.thumbnail != 'default' && this.post.thumbnail != 'image';
+  }
 }

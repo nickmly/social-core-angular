@@ -8,23 +8,6 @@ namespace SocialMediaAngular
 {
     public class LinkChecker
     {
-        public static string ConvertGifvToMp4(string url)
-        {
-            if (string.IsNullOrEmpty(url))
-                return null;
-
-            Regex regex = new Regex(@"\.(gifv)$");
-            Match match = regex.Match(url);
-            if (match.Success)
-            {
-                var newUrl = url.Substring(0, url.Length - 5);
-                newUrl += ".mp4";
-                return newUrl;
-            }
-
-            return url;
-        }
-
         public static string ConvertYoutubeLink(string url)
         {
             string videoID = url.Split(new string[] { "v=" }, StringSplitOptions.None)[1]; // Get ID and variables
@@ -60,6 +43,8 @@ namespace SocialMediaAngular
                 return "Youtube";
             else if (CheckIfGfycat(url))
                 return "Gfycat";
+            else if (CheckIfGifv(url))
+                return "Gifv";
 
             return "default";
         }
@@ -74,12 +59,23 @@ namespace SocialMediaAngular
             return match.Success;
         }
 
+
         private static bool CheckIfVideo(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return false;
 
             Regex regex = new Regex(@"\.(webm|mp4)$");
+            Match match = regex.Match(url);
+            return match.Success;
+        }
+
+        private static bool CheckIfGifv(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return false;
+
+            Regex regex = new Regex(@"\.(gifv)$");
             Match match = regex.Match(url);
             return match.Success;
         }

@@ -33,18 +33,24 @@ namespace SocialMediaAngular.Controllers
                         Permalink = currentPost["permalink"].ToString(),
                         Link = currentPost["url"].ToString(),
                         AuthorName = currentPost["author"].ToString(),
-                        Likes = Convert.ToInt32(currentPost["ups"])
+                        Likes = Convert.ToInt32(currentPost["ups"]),
+                        Thumbnail = currentPost["thumbnail"].ToString()
                     };
 
                     newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
                     if (newPost.LinkType == "Youtube")
-                        newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
-                    if (newPost.LinkType == "Gfycat")
                     {
-                        newPost.Link = LinkChecker.ConvertGfycatLink(newPost.Link);
+                        newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
+                    }
+                    
+                    // Convert gfycat and gifv to use reddit video
+                    if (newPost.LinkType == "Gfycat" || newPost.LinkType == "Gifv")
+                    {
+                        newPost.Link = currentPost["preview"]["reddit_video_preview"]["fallback_url"].ToString();
                         newPost.LinkType = "Video";
                     }
 
+                    // For converting reddit videos
                     if (Convert.ToBoolean(currentPost["is_video"]) == true)
                     {
                         newPost.Link = currentPost["secure_media"]["reddit_video"]["fallback_url"].ToString();

@@ -7,4 +7,5 @@ export class Post {
   permalink: string;
   likes: number = 0;
   linkType: string;
+  thumbnail: string;
 }

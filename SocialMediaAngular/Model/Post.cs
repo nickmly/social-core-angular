@@ -15,5 +15,6 @@ namespace SocialMediaAngular.Model
         public string Permalink { get; set; }
         public int Likes { get; set; }
         public string LinkType { get; set; }
+        public string Thumbnail { get; set; }
     }
 }
