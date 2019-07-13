@@ -1,0 +1,10 @@
+@import '../../variables';
+
+.post {
+    box-shadow: 2px 2px 4px $box-shadow-color;
+    border: 1px solid $box-shadow-color;
+    padding: 20px;
+    margin: 10px 0;
+    background: $base-white;
+}
+

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMediaAngular", "SocialMediaAngular\SocialMediaAngular.csproj", "{10DFB0C8-D0EA-406F-ABFB-37435336FBB0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10DFB0C8-D0EA-406F-ABFB-37435336FBB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DFB0C8-D0EA-406F-ABFB-37435336FBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DFB0C8-D0EA-406F-ABFB-37435336FBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DFB0C8-D0EA-406F-ABFB-37435336FBB0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B2D228C-45EF-45FF-9DCF-A82C32F51FC6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,13 @@
+@import 'variables';
+
+* {
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    color: $base-black;
+}
+
+body {
+    width: 100%;
+    margin: 0;
+    color: $base-black;
+    background: $body-background;
+}
