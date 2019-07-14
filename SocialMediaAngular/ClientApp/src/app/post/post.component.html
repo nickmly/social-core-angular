@@ -1,4 +1,4 @@
-<div class="post">
+<div *ngIf="post" class="post">
   <div class="post-header">
     <div class="post-subheader">
         <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">

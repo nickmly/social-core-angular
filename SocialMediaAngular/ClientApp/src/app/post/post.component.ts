@@ -20,13 +20,13 @@ export class PostComponent implements OnInit {
     if(this.post.content === '')
       return '';
     return this.post.content.substring(0, 100) + '...';
-  }  
-
-  get linkToPost() {
-    return "/api/posts/" + this.post.id;
   }
 
   get canShowThumbnail() {
-    return this.post.linkType == 'default' && this.post.thumbnail != 'self' && this.post.thumbnail != 'default' && this.post.thumbnail != 'image';
+    return this.post.linkType == 'default'
+        && this.post.thumbnail != 'self'
+        && this.post.thumbnail != 'default'
+        && this.post.thumbnail != 'image'
+        && this.post.thumbnail != 'nsfw';
   }
 }
