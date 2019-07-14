@@ -27,7 +27,8 @@ namespace SocialMediaAngular.Controllers
                 Link = jsonPost["url"].ToString(),
                 AuthorName = jsonPost["author"].ToString(),
                 Likes = Convert.ToInt32(jsonPost["ups"]),
-                Thumbnail = jsonPost["thumbnail"].ToString()
+                Thumbnail = jsonPost["thumbnail"].ToString(),
+                Subreddit = jsonPost["subreddit"].ToString()
             };
 
             newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
@@ -76,6 +77,23 @@ namespace SocialMediaAngular.Controllers
             }
         }
 
+
+
+        public async Task<Post> GetPost(string id, string subreddit)
+        {
+            JArray json = await RedditConnector.GetJSONArrayAsync("/r/" + subreddit + "/comments/" + id + ".json");
+            if (json[0]["error"] == null)
+            {
+                var currentPost = json[0]["data"]["children"][0]["data"];
+                return ConvertPostFromJson(currentPost);
+            }
+            else
+            {
+                // TODO: Log error
+            }
+            return null;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public async Task<List<Post>> Get()
@@ -84,12 +102,15 @@ namespace SocialMediaAngular.Controllers
             return redditPosts;
         }
 
-        // GET api/<controller>/<id>
+        // GET api/<controller>/<id>?subreddit=<subreddit>
         [HttpGet("{id}")]
-        public async Task<Post> Get(string id)
+        public async Task<Post> Get(string id, [FromQuery]string subreddit)
         {
-            await PopulatePosts();
-            Post post = redditPosts.First(p => p.ID == id);
+            Post post = await GetPost(id, subreddit);
+            if(post == null)
+            {
+                // TODO: Log error
+            }
             return post;
         }
 

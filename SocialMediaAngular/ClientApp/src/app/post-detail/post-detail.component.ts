@@ -25,7 +25,7 @@ export class PostDetailComponent implements OnInit {
     this.spinner.show();
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) => 
-          this.service.getPost(params.get('id'))
+          this.service.getPost(params.get('id'), params.get('subreddit'))
         )
       ).subscribe(function(data){
         this.post = data;

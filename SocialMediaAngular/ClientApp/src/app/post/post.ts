@@ -3,6 +3,7 @@ export class Post {
   title: string = "<title>";
   content: string = "<body>";
   authorName: string = "<author>";
+  subreddit: string;
   link: string;
   permalink: string;
   likes: number = 0;
