@@ -22,8 +22,8 @@ export class PostComponent implements OnInit {
     return this.post.content.substring(0, 100) + '...';
   }  
 
-  get linkToReddit() {
-    return 'https://reddit.com' + this.post.permalink;
+  get linkToPost() {
+    return "/api/posts/" + this.post.id;
   }
 
   get canShowThumbnail() {

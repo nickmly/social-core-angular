@@ -1,5 +1,5 @@
 export class Post {
-  id: number = 0;
+  id: string;
   title: string = "<title>";
   content: string = "<body>";
   authorName: string = "<author>";

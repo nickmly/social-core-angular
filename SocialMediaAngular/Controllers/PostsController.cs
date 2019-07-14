@@ -16,6 +16,46 @@ namespace SocialMediaAngular.Controllers
     {
         private List<Post> redditPosts = new List<Post>();
 
+        public Post ConvertPostFromJson(JToken jsonPost)
+        {
+            Post newPost = new Post
+            {
+                ID = jsonPost["id"].ToString(),
+                Title = jsonPost["title"].ToString(),
+                Content = jsonPost["selftext"].ToString(),
+                Permalink = jsonPost["permalink"].ToString(),
+                Link = jsonPost["url"].ToString(),
+                AuthorName = jsonPost["author"].ToString(),
+                Likes = Convert.ToInt32(jsonPost["ups"]),
+                Thumbnail = jsonPost["thumbnail"].ToString()
+            };
+
+            newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
+            if (newPost.LinkType == "Youtube")
+            {
+                newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
+            }
+
+            // Convert gfycat and gifv to use reddit video
+            if (newPost.LinkType == "Gfycat" || newPost.LinkType == "Gifv")
+            {
+                newPost.Link = jsonPost["preview"]["reddit_video_preview"]["fallback_url"].ToString();
+                newPost.LinkType = "Video";
+            }
+
+            // For converting reddit videos
+            if (Convert.ToBoolean(jsonPost["is_video"]) == true)
+            {
+                newPost.Link = jsonPost["secure_media"]["reddit_video"]["fallback_url"].ToString();
+                newPost.LinkType = "Video";
+            }
+            return newPost;
+        }
+
+        /// <summary>
+        /// Populate post list with the top reddit posts right now
+        /// </summary>
+        /// <returns></returns>
         public async Task PopulatePosts()
         {
             JObject json = await RedditConnector.GetJSONAsync("/r/all/.json");
@@ -25,38 +65,7 @@ namespace SocialMediaAngular.Controllers
                 foreach (var post in json["data"]["children"])
                 {
                     var currentPost = post["data"];
-                    Post newPost = new Post
-                    {
-                        ID = index,
-                        Title = currentPost["title"].ToString(),
-                        Content = currentPost["selftext"].ToString(),
-                        Permalink = currentPost["permalink"].ToString(),
-                        Link = currentPost["url"].ToString(),
-                        AuthorName = currentPost["author"].ToString(),
-                        Likes = Convert.ToInt32(currentPost["ups"]),
-                        Thumbnail = currentPost["thumbnail"].ToString()
-                    };
-
-                    newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
-                    if (newPost.LinkType == "Youtube")
-                    {
-                        newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
-                    }
-                    
-                    // Convert gfycat and gifv to use reddit video
-                    if (newPost.LinkType == "Gfycat" || newPost.LinkType == "Gifv")
-                    {
-                        newPost.Link = currentPost["preview"]["reddit_video_preview"]["fallback_url"].ToString();
-                        newPost.LinkType = "Video";
-                    }
-
-                    // For converting reddit videos
-                    if (Convert.ToBoolean(currentPost["is_video"]) == true)
-                    {
-                        newPost.Link = currentPost["secure_media"]["reddit_video"]["fallback_url"].ToString();
-                        newPost.LinkType = "Video";
-                    }
-
+                    Post newPost = ConvertPostFromJson(currentPost);
                     redditPosts.Add(newPost);
                     index++;
                 }
@@ -65,7 +74,7 @@ namespace SocialMediaAngular.Controllers
             {
                 // TODO: Log error
             }
-        }        
+        }
 
         // GET: api/<controller>
         [HttpGet]
@@ -75,11 +84,13 @@ namespace SocialMediaAngular.Controllers
             return redditPosts;
         }
 
-        // GET api/<controller>/5
+        // GET api/<controller>/<id>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<Post> Get(string id)
         {
-            return "value";
+            await PopulatePosts();
+            Post post = redditPosts.First(p => p.ID == id);
+            return post;
         }
 
         // POST api/<controller>

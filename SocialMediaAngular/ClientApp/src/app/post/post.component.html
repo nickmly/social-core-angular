@@ -2,7 +2,7 @@
   <div class="post-header">
     <div class="post-subheader">
         <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">
-        <a href="{{ linkToReddit }}"><h3 class="post-title">{{ post.title }}</h3></a>
+        <a [routerLink]="['/post', post.id]"><h3 class="post-title">{{ post.title }}</h3></a>
     </div>
     <p class="post-author">Posted by <strong>{{ post.authorName }}</strong></p>
   </div> 
