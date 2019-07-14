@@ -1,0 +1,53 @@
+<nav class="navbar">
+    <i #navBurger (click)="toggleNavbar()" class="fas fa-bars"></i>
+    <ul #navLinks class="hidden nav-links">
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'all']" class="nav-link">
+            All
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'AskReddit']" class="nav-link">
+            AskReddit
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'news']" class="nav-link">
+            News
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'funny']" class="nav-link">
+            Funny
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'gaming']" class="nav-link">
+            Gaming
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'pics']" class="nav-link">
+            Pics
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'aww']" class="nav-link">
+            Aww
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'TodayILearned']" class="nav-link">
+            TodayILearned
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'ShowerThoughts']" class="nav-link">
+            ShowerThoughts
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'WorldNews']" class="nav-link">
+            WorldNews
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'MildlyInteresting']" class="nav-link">
+            MildlyInteresting
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'videos']" class="nav-link">
+            Videos
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'gifs']" class="nav-link">
+            Gifs
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'Jokes']" class="nav-link">
+            Jokes
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'movies']" class="nav-link">
+            Movies
+        </li>
+        <li (click)="onClickNavLink()" [routerLink]="['/p', 'television']" class="nav-link">
+            Television
+        </li>
+    </ul>
+</nav>
