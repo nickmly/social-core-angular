@@ -10,7 +10,12 @@ namespace SocialMediaAngular
     {
         public static string ConvertYoutubeLink(string url)
         {
-            string videoID = url.Split(new string[] { "v=" }, StringSplitOptions.None)[1]; // Get ID and variables
+            string[] split = url.Split(new string[] { "v=" }, StringSplitOptions.None); // Get ID and variables
+            if(split.Length == 1)
+            {
+                split = url.Split(new string[] { "/" }, StringSplitOptions.None); // Get ID and variables
+            }
+            string videoID = split[split.Length - 1];
             if (videoID == null)
                 videoID = url.Split(new string[] { "e/" }, StringSplitOptions.None)[1]; // If there is no v= in the link, just separate with a slash
 
