@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SecurityContext } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 import { Post } from './post';
 
 @Component({
@@ -11,9 +13,12 @@ export class PostComponent implements OnInit {
   @Input()
   post : Post;
 
-  constructor() { }
+  safeLink : SafeResourceUrl;
+
+  constructor(private sanitizer : DomSanitizer) { }
 
   ngOnInit() {
+    this.safeLink = this.sanitizer.sanitize(SecurityContext.URL, this.post.link);
   }
 
   get trimmedContent() {

@@ -9,6 +9,7 @@ import { PostComponent } from './post/post.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { CommentComponent } from './comment/comment.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CommentComponent } from './comment/comment.component';
     PostComponent,
     PostListComponent,
     PostDetailComponent,
-    CommentComponent
+    CommentComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
