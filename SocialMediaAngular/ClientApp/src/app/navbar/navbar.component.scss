@@ -1,13 +1,22 @@
 @import '../../variables';
 
 .navbar {
+    display: flex;
+    flex-direction: column;
     padding: 5px;
     background: $base-white;
     border-bottom: 1px solid $box-shadow-color;
 }
 
+.navbar i {
+    align-self: flex-end;
+    color: $link-blue;
+    cursor: pointer;
+    font-size: 22px;
+}
+
 .nav-links {
-    display: flex;
+    display: block;
     list-style: none;
     padding: 0;
     flex-direction: column;
@@ -20,15 +29,25 @@
     color: $link-blue;
     font-weight: bold;
     cursor: pointer;
+    padding: 2px;
+}
+
+.hidden {
+    display: none;
 }
 
 
-@media screen and (min-width: $med-breakpoint-width) {
+@media screen and (min-width: $med-breakpoint-width) {    
+    .navbar i {
+        display: none;
+    }
+
     .navbar {
         padding: 10px;
     }
 
     .nav-links {
+        display: flex;
         flex-direction: row;
     }
 
