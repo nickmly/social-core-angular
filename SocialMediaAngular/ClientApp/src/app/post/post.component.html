@@ -12,7 +12,7 @@
   </div> 
   <div class="post-content">
       <ng-container [ngSwitch]="post.linkType">
-        <img *ngSwitchCase="'Image'" class="post-image" src="{{ post.link }}"/>
+        <img *ngSwitchCase="'Image'" class="post-image" src="{{ post.link }}" #image (load)="onImageLoad($event)"/>
         <video *ngSwitchCase="'Video'" class="post-video" src="{{ post.link }}" controls></video>
         <iframe *ngSwitchCase="'Youtube'" class="post-yt-video" [src]="post.link | safe"
           width="459" height="344" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>

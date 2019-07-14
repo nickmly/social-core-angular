@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SecurityContext } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Post } from './post';
 
 @Component({
@@ -12,11 +12,19 @@ export class PostComponent implements OnInit {
   post : Post;
 
   @Input()
-  detail: boolean;
+  detail: boolean;  
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onImageLoad(event) {
+    // On image load, check if the image is larger than 800px (breakpoint width)
+    // If so, force it to fit the div
+    if(event.target.clientWidth >= 800) {
+      event.target.classList.add('post-image-full');
+    }
   }
 
   // Trim content down to 100 characters
