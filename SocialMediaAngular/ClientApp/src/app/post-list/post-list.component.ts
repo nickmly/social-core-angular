@@ -9,6 +9,7 @@ import { switchMap } from 'rxjs/operators';
 
 
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./post-list.component.scss']
 })
 
-export class PostListComponent implements OnInit {  
+export class PostListComponent implements OnInit {
   posts: Post[];
 
   constructor(
@@ -32,27 +33,35 @@ export class PostListComponent implements OnInit {
     this.getPosts();
   }
 
-  getPosts() : void {
+  getPosts(): void {
     // Get posts from service using subreddit param in route
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => 
-          this.postService.getPosts(params.get('subreddit'))
-        )
-      ).subscribe(function(data){
-        this.posts = data;
-        this.spinner.hide();
-      }.bind(this), function(error){
-        // Redirect to home page and show error
-        this.router.navigate(['/']);
-          this.toast.error('Page not found. Redirecting...', 'Error', {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-        // After five seconds, refresh home page (trick to prevent angular from loading this same component again)
-        setTimeout(function() {    
-          location.reload();
-        }.bind(this), 5000);
-        this.spinner.hide();
-      }.bind(this));
+      switchMap((params: ParamMap) =>
+        this.postService.getPosts(params.get('subreddit'))
+      )
+    ).subscribe(function (data) {
+      this.posts = data;
+      if(this.posts.length === 0) {
+        this.showError('Nothing to show here! Redirecting...');
+      }
+      this.spinner.hide();
+    }.bind(this), function (error) {
+      this.showError('Page not found. Redirecting...');
+      this.spinner.hide();
+    }.bind(this));
+  }
+
+  showError(message) {
+    // Redirect to home page and show error
+    this.router.navigate(['/']);
+    this.toast.error(message, 'Error', {
+      timeOut: 5000,
+      positionClass: 'toast-top-center'
+    }).onHidden.subscribe(function() {
+      console.log("cool");
+      // After five seconds, refresh home page (trick to prevent angular from loading this same component again)
+      location.reload();
+    });
+
   }
 }
