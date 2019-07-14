@@ -2,7 +2,11 @@
   <div class="post-header">
     <div class="post-subheader">
         <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">
-        <a [routerLink]="['/post', post.subreddit, post.id]"><h3 class="post-title">{{ post.title }}</h3></a>
+        <h3 class="post-title">
+          <a [routerLink]="['/post', post.subreddit, post.id]">
+            {{ post.title }}
+          </a>
+        </h3>
     </div>
     <p class="post-author">Posted by <strong>{{ post.authorName }}</strong></p>
   </div> 
@@ -12,5 +16,9 @@
         <video *ngSwitchCase="'Video'" class="post-video" src="{{ post.link }}" controls></video>
         <p *ngSwitchDefault>{{ trimmedContent }}</p>
       </ng-container>
+  </div>
+  <div class="post-footer">
+    <i class="fas fa-thumbs-up"></i>
+    <span class="post-likes">{{ post.likes }}</span>
   </div>
 </div>

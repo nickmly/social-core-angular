@@ -37,6 +37,19 @@
     margin: 0 auto;
 }
 
+.post-footer {
+    margin: 10px 0;
+}
+
+.post-footer i, .post-likes {
+    color: $base-blue;
+    font-weight: bold;
+}
+
+.post-likes {
+    margin-left: 2px;
+}
+
 .post-image {
     max-height: 512px;
     margin: 0 auto;
