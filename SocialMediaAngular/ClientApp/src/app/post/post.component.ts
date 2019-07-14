@@ -43,6 +43,7 @@ export class PostComponent implements OnInit {
         && this.post.thumbnail != 'self'
         && this.post.thumbnail != 'default'
         && this.post.thumbnail != 'image'
-        && this.post.thumbnail != 'nsfw';
+        && this.post.thumbnail != 'nsfw'
+        && this.post.thumbnail != 'spoiler';
   }
 }
