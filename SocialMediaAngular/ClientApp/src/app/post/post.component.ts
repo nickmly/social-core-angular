@@ -13,6 +13,9 @@ export class PostComponent implements OnInit {
   @Input()
   post : Post;
 
+  @Input()
+  detail: boolean;
+
   safeLink : SafeResourceUrl;
 
   constructor(private sanitizer : DomSanitizer) { }
@@ -28,7 +31,7 @@ export class PostComponent implements OnInit {
   }
 
   get canShowThumbnail() {
-    return this.post.linkType == 'default'
+    return (this.post.linkType == 'default' || this.post.linkType == 'Twitch')
         && this.post.thumbnail != 'self'
         && this.post.thumbnail != 'default'
         && this.post.thumbnail != 'image'

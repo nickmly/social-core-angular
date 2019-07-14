@@ -4,6 +4,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 import { Post } from '../post/post';
 import { PostService } from '../post.service';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +17,11 @@ import { PostService } from '../post.service';
 export class PostListComponent implements OnInit {  
   posts: Post[];
 
-  constructor(private postService: PostService, private spinner: NgxSpinnerService) { }
+  constructor(
+    private postService: PostService,
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -23,10 +29,16 @@ export class PostListComponent implements OnInit {
   }
 
   getPosts() : void {
-    this.postService.getPosts().subscribe(function(posts){
-      this.posts = posts;
-      this.spinner.hide();
-    }.bind(this));
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => 
+          this.postService.getPosts(params.get('subreddit'))
+        )
+      ).subscribe(function(data){
+        this.posts = data;
+        this.spinner.hide();
+      }.bind(this), function(error){
+        console.error(error);
+        this.spinner.hide();
+      }.bind(this));
   }
-
 }

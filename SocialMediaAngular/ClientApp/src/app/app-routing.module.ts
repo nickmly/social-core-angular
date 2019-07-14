@@ -4,7 +4,8 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { PostListComponent } from './post-list/post-list.component';
 
 const routes: Routes = [
-  {path: '', component: PostListComponent},
+  {path: '', redirectTo: 'p/all', pathMatch: 'full' },
+  {path: 'p/:subreddit', component: PostListComponent},
   {path: 'p/:subreddit/:id', component: PostDetailComponent}
 ];
 

@@ -46,7 +46,6 @@ namespace SocialMediaAngular.Controllers
             if(newPost.LinkType == "Twitch")
             {
                 newPost.Link = LinkChecker.ConvertTwitchLink(newPost.Link);
-                newPost.LinkType = "Youtube";
             }
 
             // Convert gfycat and gifv to use reddit video
@@ -69,9 +68,9 @@ namespace SocialMediaAngular.Controllers
         /// Populate post list with the top reddit posts right now
         /// </summary>
         /// <returns></returns>
-        public async Task PopulatePosts()
+        public async Task PopulatePosts(string subreddit)
         {
-            JObject json = await RedditConnector.GetJSONAsync("/r/all/.json");
+            JObject json = await RedditConnector.GetJSONAsync("/r/" + subreddit + ".json");
             if (json["error"] == null)
             {
                 int index = 1;
@@ -123,11 +122,11 @@ namespace SocialMediaAngular.Controllers
             return null;
         }
 
-        // GET: api/<controller>
+        // GET: api/<controller>?s=<subreddit>
         [HttpGet]
-        public async Task<List<Post>> Get()
+        public async Task<List<Post>> Get([FromQuery]string s)
         {
-            await PopulatePosts();
+            await PopulatePosts(s);
             return redditPosts;
         }
 
