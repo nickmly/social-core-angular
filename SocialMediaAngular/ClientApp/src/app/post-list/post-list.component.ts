@@ -58,7 +58,6 @@ export class PostListComponent implements OnInit {
       timeOut: 5000,
       positionClass: 'toast-top-center'
     }).onHidden.subscribe(function() {
-      console.log("cool");
       // After five seconds, refresh home page (trick to prevent angular from loading this same component again)
       location.reload();
     });
