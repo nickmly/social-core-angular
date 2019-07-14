@@ -58,6 +58,7 @@
 
 .post-image {
     max-height: 512px;
+    max-width: 100%;
     margin: 0 auto;
     display: block;
     width: 100%;
@@ -76,17 +77,19 @@
     display: block;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: $small-breakpoint-width) {
     .post-image{
         width: auto;
     }
+}
 
+@media screen and (min-width: $med-breakpoint-width) {    
     .post-title {
         margin: 10px 0;
     }
 
     .post-thumbnail {
-        max-width: unset;
+        max-width: none;
     }
 
     .post-header, .post-subheader {

@@ -82,10 +82,6 @@ namespace SocialMediaAngular.Controllers
                     index++;
                 }
             }
-            else
-            {
-                // TODO: Log error
-            }
         }
 
 
@@ -114,10 +110,6 @@ namespace SocialMediaAngular.Controllers
                 }
 
                 return post;
-            }
-            else
-            {
-                // TODO: Log error
             }
             return null;
         }
