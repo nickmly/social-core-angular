@@ -1,5 +1,10 @@
 @import '../../variables';
 
+.breadcrumbs a {
+    font-weight: bold;
+    font-size: 24px;
+}
+
 .post-container, .comment-container {
     margin: 20px;
 }
