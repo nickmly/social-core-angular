@@ -27,10 +27,14 @@ export class PostComponent implements OnInit {
     }
   }
 
-  // Trim content down to 100 characters
+
   get trimmedContent() {
     if(this.post.content === '')
       return '';
+    // If we are viewing the details of a specific post, show entire content
+    if(this.detail)
+      return this.post.content;
+    // Trim content down to 100 characters
     return this.post.content.substring(0, 100) + '...';
   }
 
