@@ -3,7 +3,7 @@
     <div class="post-subheader">
         <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">
         <h3 class="post-title">
-          <a [routerLink]="['/post', post.subreddit, post.id]">
+          <a href="{{post.link}}">
             {{ post.title }}
           </a>
         </h3>
@@ -18,7 +18,13 @@
       </ng-container>
   </div>
   <div class="post-footer">
-    <i class="fas fa-thumbs-up"></i>
-    <span class="post-likes">{{ post.likes }}</span>
+    <div>
+        <i class="fas fa-thumbs-up"></i>
+        <span class="post-likes">{{ post.likes }}</span>
+    </div>
+    <div>
+      <i class="fas fa-comment-alt"></i>
+      <span [routerLink]="['/p', post.subreddit, post.id]" class="post-comment">Comments</span>
+    </div>
   </div>
 </div>

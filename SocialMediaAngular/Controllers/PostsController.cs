@@ -85,7 +85,24 @@ namespace SocialMediaAngular.Controllers
             if (json[0]["error"] == null)
             {
                 var currentPost = json[0]["data"]["children"][0]["data"];
-                return ConvertPostFromJson(currentPost);
+                Post post = ConvertPostFromJson(currentPost);
+                post.Comments = new List<Comment>();
+                // Get comments
+                var currentComments = json[1]["data"]["children"];
+                foreach(var comment in currentComments)
+                {
+                    if (comment["data"]["body"] == null || comment["data"]["author"] == null)
+                        continue;
+
+                    Comment newComment = new Comment()
+                    {
+                        Body = comment["data"]["body"].ToString(),
+                        AuthorName = comment["data"]["author"].ToString()
+                    };
+                    post.Comments.Add(newComment);
+                }
+
+                return post;
             }
             else
             {

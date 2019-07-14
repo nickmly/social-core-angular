@@ -1,3 +1,5 @@
+import { Comment } from '../comment/comment';
+
 export class Post {
   id: string;
   title: string = "<title>";
@@ -9,4 +11,5 @@ export class Post {
   likes: number = 0;
   linkType: string;
   thumbnail: string;
+  comments: Comment[];
 }

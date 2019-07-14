@@ -38,16 +38,22 @@
 }
 
 .post-footer {
+    display: flex;
+    justify-content: space-between;
     margin: 10px 0;
 }
 
-.post-footer i, .post-likes {
+.post-footer i, .post-likes, .post-comment {
     color: $base-blue;
     font-weight: bold;
 }
 
-.post-likes {
+.post-likes, .post-comment {
     margin-left: 2px;
+}
+
+.post-comment:hover {
+    cursor: pointer;
 }
 
 .post-image {
@@ -75,7 +81,6 @@
 
     .post-thumbnail {
         max-width: unset;
-        margin-right: 0;
     }
 
     .post-header, .post-subheader {
