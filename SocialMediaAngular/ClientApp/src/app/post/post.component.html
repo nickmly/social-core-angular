@@ -1,4 +1,38 @@
-<div class="post">
-  <h2>{{ post.title }}</h2>
-  <p>{{ trimmedContent }}</p>
+<div *ngIf="post" class="post">
+  <div class="post-header">
+    <div class="post-subheader">
+        <img class="post-thumbnail" *ngIf="canShowThumbnail" src="{{ post.thumbnail }}">
+        <h3 class="post-title">
+          <a href="{{post.link}}">
+            {{ post.title }}
+          </a>
+        </h3>
+    </div>
+    <p class="post-author">Posted by <strong>{{ post.authorName }}</strong></p>
+  </div> 
+  <div class="post-content">
+      <ng-container [ngSwitch]="post.linkType">
+        <img *ngSwitchCase="'Image'" class="post-image" src="{{ post.link }}" (load)="onImageLoad($event)"/>
+        <video *ngSwitchCase="'Video'" class="post-video" src="{{ post.link }}" controls></video>
+        <iframe *ngSwitchCase="'Youtube'" class="post-yt-video" [src]="post.link | safe"
+          width="459" height="344" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+        <ng-container *ngIf="detail">
+          <iframe *ngSwitchCase="'Twitch'" class="post-yt-video" [src]="post.link | safe"
+            width="459" height="344" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+          </iframe>
+        </ng-container>
+        <p *ngSwitchDefault>{{ trimmedContent }}</p>
+      </ng-container>
+  </div>
+  <div class="post-footer">
+    <div>
+        <i class="fas fa-thumbs-up"></i>
+        <span class="post-likes">{{ post.likes }}</span>
+    </div>
+    <div>
+      <i class="fas fa-comment-alt"></i>
+      <span [routerLink]="['/p', post.subreddit, post.id]" class="post-comment">Comments</span>
+    </div>
+  </div>
 </div>

@@ -1,11 +1,11 @@
 @import '../../variables';
 
-.post-list {
+.post-container, .comment-container {
     margin: 20px;
 }
 
 @media only screen and (min-width: $large-breakpoint-width) {
-    .post-list {
+    .post-container, .comment-container {
         margin: 20px 25vw;
     }
 }

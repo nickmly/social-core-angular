@@ -1,0 +1,9 @@
+<ng-container *ngIf="post">
+  <div class="post-container">
+    <app-post [post]="post" [detail]="true"></app-post>
+  </div>
+  <div class="comment-container">
+    <app-comment *ngFor="let comment of post.comments" [comment]="comment"></app-comment>
+  </div>
+</ng-container>
+<ngx-spinner bdColor="#eaebec" size="medium" color="#333" type="ball-clip-rotate"></ngx-spinner>

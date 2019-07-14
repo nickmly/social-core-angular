@@ -16,82 +16,122 @@ namespace SocialMediaAngular.Controllers
     {
         private List<Post> redditPosts = new List<Post>();
 
-        public async Task PopulatePosts()
+        public Post ConvertPostFromJson(JToken jsonPost)
         {
-            JObject json = await RedditConnector.GetJSONAsync("/r/all/.json");
+            Post newPost = new Post
+            {
+                ID = jsonPost["id"].ToString(),
+                Title = jsonPost["title"].ToString(),
+                Content = jsonPost["selftext"].ToString(),
+                Permalink = jsonPost["permalink"].ToString(),
+                Link = jsonPost["url"].ToString(),
+                AuthorName = jsonPost["author"].ToString(),
+                Likes = Convert.ToInt32(jsonPost["ups"]),
+                Thumbnail = jsonPost["thumbnail"].ToString(),
+                Subreddit = jsonPost["subreddit"].ToString()
+            };
+
+            newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
+            if (newPost.LinkType == "Youtube")
+            {
+                newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
+            }
+
+            if (newPost.LinkType == "Streamable")
+            {
+                newPost.Link = LinkChecker.ConvertStreamableLink(newPost.Link);
+                newPost.LinkType = "Youtube";
+            }
+
+            if(newPost.LinkType == "Twitch")
+            {
+                newPost.Link = LinkChecker.ConvertTwitchLink(newPost.Link);
+            }
+
+            // Convert gfycat and gifv to use reddit video
+            if (newPost.LinkType == "Gfycat" || newPost.LinkType == "Gifv")
+            {
+                newPost.Link = jsonPost["preview"]["reddit_video_preview"]["fallback_url"].ToString();
+                newPost.LinkType = "Video";
+            }
+
+            // For converting reddit videos
+            if (Convert.ToBoolean(jsonPost["is_video"]) == true)
+            {
+                newPost.Link = jsonPost["secure_media"]["reddit_video"]["fallback_url"].ToString();
+                newPost.LinkType = "Video";
+            }
+            return newPost;
+        }
+
+        /// <summary>
+        /// Populate post list with the top reddit posts right now
+        /// </summary>
+        /// <returns></returns>
+        public async Task PopulatePosts(string subreddit)
+        {
+            JObject json = await RedditConnector.GetJSONAsync("/r/" + subreddit + ".json");
             if (json["error"] == null)
             {
                 int index = 1;
                 foreach (var post in json["data"]["children"])
                 {
                     var currentPost = post["data"];
-                    Post newPost = new Post
-                    {
-                        ID = index,
-                        Title = currentPost["title"].ToString(),
-                        Content = currentPost["selftext"].ToString(),
-                        Permalink = currentPost["permalink"].ToString(),
-                        Link = currentPost["url"].ToString(),
-                        AuthorName = currentPost["author"].ToString(),
-                        Likes = Convert.ToInt32(currentPost["ups"])
-                    };
-
-                    newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
-                    if (newPost.LinkType == "Youtube")
-                        newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
-                    if (newPost.LinkType == "Gfycat")
-                    {
-                        newPost.Link = LinkChecker.ConvertGfycatLink(newPost.Link);
-                        newPost.LinkType = "Video";
-                    }
-
-                    if (Convert.ToBoolean(currentPost["is_video"]) == true)
-                    {
-                        newPost.Link = currentPost["secure_media"]["reddit_video"]["fallback_url"].ToString();
-                        newPost.LinkType = "Video";
-                    }
-
+                    Post newPost = ConvertPostFromJson(currentPost);
                     redditPosts.Add(newPost);
                     index++;
                 }
             }
-            else
-            {
-                // TODO: Log error
-            }
-        }        
+        }
 
-        // GET: api/<controller>
-        [HttpGet]
-        public async Task<List<Post>> Get()
+
+
+        public async Task<Post> GetPost(string id, string subreddit)
         {
-            await PopulatePosts();
+            JArray json = await RedditConnector.GetJSONArrayAsync("/r/" + subreddit + "/comments/" + id + ".json");
+            if (json[0]["error"] == null)
+            {
+                var currentPost = json[0]["data"]["children"][0]["data"];
+                Post post = ConvertPostFromJson(currentPost);
+                post.Comments = new List<Comment>();
+                // Get comments
+                var currentComments = json[1]["data"]["children"];
+                foreach(var comment in currentComments)
+                {
+                    if (comment["data"]["body"] == null || comment["data"]["author"] == null)
+                        continue;
+
+                    Comment newComment = new Comment()
+                    {
+                        Body = comment["data"]["body"].ToString(),
+                        AuthorName = comment["data"]["author"].ToString()
+                    };
+                    post.Comments.Add(newComment);
+                }
+
+                return post;
+            }
+            return null;
+        }
+
+        // GET: api/<controller>?s=<subreddit>
+        [HttpGet]
+        public async Task<List<Post>> Get([FromQuery]string s)
+        {
+            await PopulatePosts(s);
             return redditPosts;
         }
 
-        // GET api/<controller>/5
+        // GET api/<controller>/<id>?subreddit=<subreddit>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<Post> Get(string id, [FromQuery]string subreddit)
         {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            Post post = await GetPost(id, subreddit);
+            if(post == null)
+            {
+                // TODO: Log error
+            }
+            return post;
         }
     }
 }
