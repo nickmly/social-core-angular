@@ -30,6 +30,21 @@ namespace SocialMediaAngular
             return newUrl;
         }
 
+        public static string ConvertStreamableLink(string url)
+        {
+            string routeData = url.Split(new string[] { ".com/" }, StringSplitOptions.None)[1];
+            string newUrl = "https://streamable.com/s/" + routeData;
+            return newUrl;
+        }
+
+        public static string ConvertTwitchLink(string url)
+        {
+            string routeData = url.Split(new string[] { ".tv/" }, StringSplitOptions.None)[1];
+            string newUrl = "https://clips.twitch.tv/embed?clip=" + routeData;
+            return newUrl;
+        }
+
+
         public static string GetLinkType(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -45,6 +60,10 @@ namespace SocialMediaAngular
                 return "Gfycat";
             else if (CheckIfGifv(url))
                 return "Gifv";
+            else if (CheckIfStreamable(url))
+                return "Streamable";
+            else if (CheckIfTwitch(url))
+                return "Twitch";
 
             return "default";
         }
@@ -66,6 +85,26 @@ namespace SocialMediaAngular
                 return false;
 
             Regex regex = new Regex(@"\.(webm|mp4)$");
+            Match match = regex.Match(url);
+            return match.Success;
+        }
+
+        private static bool CheckIfStreamable(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return false;
+
+            Regex regex = new Regex(@"(streamable)");
+            Match match = regex.Match(url);
+            return match.Success;
+        }
+
+        private static bool CheckIfTwitch(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return false;
+
+            Regex regex = new Regex(@"(clips.twitch.tv)");
             Match match = regex.Match(url);
             return match.Success;
         }

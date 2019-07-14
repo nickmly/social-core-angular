@@ -37,6 +37,18 @@ namespace SocialMediaAngular.Controllers
                 newPost.Link = LinkChecker.ConvertYoutubeLink(newPost.Link);
             }
 
+            if (newPost.LinkType == "Streamable")
+            {
+                newPost.Link = LinkChecker.ConvertStreamableLink(newPost.Link);
+                newPost.LinkType = "Youtube";
+            }
+
+            if(newPost.LinkType == "Twitch")
+            {
+                newPost.Link = LinkChecker.ConvertTwitchLink(newPost.Link);
+                newPost.LinkType = "Youtube";
+            }
+
             // Convert gfycat and gifv to use reddit video
             if (newPost.LinkType == "Gfycat" || newPost.LinkType == "Gifv")
             {
