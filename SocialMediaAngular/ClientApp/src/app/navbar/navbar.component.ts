@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     // If window is smaller than breakpoint width, remove navLinks and add navBurger
-    if(event.target.innerWidth <= 800) {
+    if(event.target.innerWidth <= 1000) {
       this.navBurger.nativeElement.classList.remove('hidden');
       this.navLinks.nativeElement.classList.add('hidden');
     }

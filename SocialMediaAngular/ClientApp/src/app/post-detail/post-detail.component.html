@@ -1,5 +1,8 @@
 <ng-container *ngIf="post">
   <div class="post-container">
+    <div class="breadcrumbs">
+      <a [routerLink]="['/p', post.subreddit]">{{ post.subreddit }}</a>
+    </div>
     <app-post [post]="post" [detail]="true"></app-post>
   </div>
   <div class="comment-container">
