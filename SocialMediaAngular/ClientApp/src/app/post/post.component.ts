@@ -12,7 +12,7 @@ export class PostComponent implements OnInit {
   post : Post;
 
   @Input()
-  detail: boolean;  
+  detail: boolean;
 
   constructor() { }
 
@@ -20,13 +20,13 @@ export class PostComponent implements OnInit {
   }
 
   onImageLoad(event) {
+    console.log(event.target);
     // On image load, check if the image is larger than 800px (breakpoint width)
     // If so, force it to fit the div
     if(event.target.clientWidth >= 800) {
       event.target.classList.add('post-image-full');
     }
   }
-
 
   get trimmedContent() {
     if(this.post.content === '')
