@@ -12,6 +12,7 @@ import { PostListComponent } from './post-list/post-list.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { CommentComponent } from './comment/comment.component';
 import { SafePipe } from './safe.pipe';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SafePipe } from './safe.pipe';
     PostListComponent,
     PostDetailComponent,
     CommentComponent,
-    SafePipe
+    SafePipe,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

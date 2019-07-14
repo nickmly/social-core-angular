@@ -4,7 +4,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 import { Post } from '../post/post';
 import { PostService } from '../post.service';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap, NavigationEnd } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 
@@ -26,7 +26,14 @@ export class PostListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toast: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {
+    router.events.subscribe((val) => {
+      // When we finish navigating to this route, show spinner
+      if(val instanceof NavigationEnd) {
+        this.spinner.show();
+      }  
+    });
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -41,7 +48,7 @@ export class PostListComponent implements OnInit {
       )
     ).subscribe(function (data) {
       this.posts = data;
-      if(this.posts.length === 0) {
+      if (this.posts.length === 0) {
         this.showError('Nothing to show here! Redirecting...');
       }
       this.spinner.hide();
@@ -57,10 +64,9 @@ export class PostListComponent implements OnInit {
     this.toast.error(message, 'Error', {
       timeOut: 5000,
       positionClass: 'toast-top-center'
-    }).onHidden.subscribe(function() {
+    }).onHidden.subscribe(function () {
       // After five seconds, refresh home page (trick to prevent angular from loading this same component again)
       location.reload();
     });
-
   }
 }

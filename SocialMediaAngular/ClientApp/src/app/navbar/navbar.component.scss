@@ -1,0 +1,38 @@
+@import '../../variables';
+
+.navbar {
+    padding: 5px;
+    background: $base-white;
+    border-bottom: 1px solid $box-shadow-color;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 16px;
+    margin: 0;
+}
+
+.nav-link {
+    color: $link-blue;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+@media screen and (min-width: $med-breakpoint-width) {
+    .navbar {
+        padding: 10px;
+    }
+
+    .nav-links {
+        flex-direction: row;
+    }
+
+    .nav-link {
+        padding: 5px 0;
+    }
+}
