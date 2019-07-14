@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, SecurityContext } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
 import { Post } from './post';
 
 @Component({
@@ -16,20 +14,19 @@ export class PostComponent implements OnInit {
   @Input()
   detail: boolean;
 
-  safeLink : SafeResourceUrl;
-
-  constructor(private sanitizer : DomSanitizer) { }
+  constructor() { }
 
   ngOnInit() {
-    this.safeLink = this.sanitizer.sanitize(SecurityContext.URL, this.post.link);
   }
 
+  // Trim content down to 100 characters
   get trimmedContent() {
     if(this.post.content === '')
       return '';
     return this.post.content.substring(0, 100) + '...';
   }
 
+  // Can show thumbnail (based on a few reddit post types)
   get canShowThumbnail() {
     return (this.post.linkType == 'default' || this.post.linkType == 'Twitch')
         && this.post.thumbnail != 'self'
