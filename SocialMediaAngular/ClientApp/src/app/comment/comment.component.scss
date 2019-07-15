@@ -2,6 +2,7 @@
 
 .comment {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     background: $base-white;
     box-shadow: 2px 2px 4px $box-shadow-color;

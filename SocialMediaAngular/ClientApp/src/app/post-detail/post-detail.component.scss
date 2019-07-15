@@ -9,6 +9,10 @@
     margin: 20px;
 }
 
+.comment-container {
+    margin-bottom: 100px;
+}
+
 @media only screen and (min-width: $large-breakpoint-width) {
     .post-container, .comment-container {
         margin: 20px 25vw;
