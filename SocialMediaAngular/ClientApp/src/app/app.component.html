@@ -1,2 +1,11 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
+<footer >
+    <div #disclaimer class="disclaimer">
+        This site pulls data from the reddit API. It is purely for demonstration purposes only.
+        <a (click)="hideDisclaimer()"><i class="fas fa-check"></i> I understand</a>
+    </div>
+    <div>
+        <a href="https://github.com/nickmly/social-core-angular"><i class="fab fa-github"></i> View code on GitHub</a>
+    </div>
+</footer>
