@@ -11,6 +11,11 @@
     padding: 10px;
 }
 
+
+.comment-body {
+    overflow: auto;
+}
+
 .comment-author {
     font-weight: bold;
     align-self: flex-end;
