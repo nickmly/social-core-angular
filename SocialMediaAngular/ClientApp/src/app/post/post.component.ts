@@ -16,8 +16,7 @@ export class PostComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onImageLoad(event) {
     // On image load, check if the image is larger than 800px (breakpoint width)
@@ -37,9 +36,14 @@ export class PostComponent implements OnInit {
     return this.post.content.substring(0, 100) + '...';
   }
 
+  get canShowContent() {
+    return this.post.nsfw == false || this.detail == true;
+  }
+
   // Can show thumbnail (based on a few reddit post types)
   get canShowThumbnail() {
     return (this.post.linkType == 'default' || this.post.linkType == 'Twitch')
+        && this.post.nsfw == false
         && this.post.thumbnail != 'self'
         && this.post.thumbnail != 'default'
         && this.post.thumbnail != 'image'

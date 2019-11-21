@@ -18,5 +18,6 @@ namespace SocialMediaAngular.Model
         public string LinkType { get; set; }
         public string Thumbnail { get; set; }
         public List<Comment> Comments { get; set; }
+        public bool NSFW { get; set; }
     }
 }

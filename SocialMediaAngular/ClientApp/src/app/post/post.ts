@@ -12,4 +12,5 @@ export class Post {
   linkType: string;
   thumbnail: string;
   comments: Comment[];
+  nsfw: boolean;
 }

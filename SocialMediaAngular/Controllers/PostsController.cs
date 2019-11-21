@@ -28,7 +28,8 @@ namespace SocialMediaAngular.Controllers
                 AuthorName = jsonPost["author"].ToString(),
                 Likes = Convert.ToInt32(jsonPost["ups"]),
                 Thumbnail = jsonPost["thumbnail"].ToString(),
-                Subreddit = jsonPost["subreddit"].ToString()
+                Subreddit = jsonPost["subreddit"].ToString(),
+                NSFW = Convert.ToBoolean(jsonPost["over_18"])
             };
 
             newPost.LinkType = LinkChecker.GetLinkType(newPost.Link);
